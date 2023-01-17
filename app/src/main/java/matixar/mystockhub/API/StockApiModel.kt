@@ -1,6 +1,7 @@
 package matixar.mystockhub.API
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class StockApiModel(
     @SerializedName("01. symbol") val symbol: String,
@@ -12,4 +13,4 @@ data class StockApiModel(
     @SerializedName("07. latest trading day") val latestTradingDay: String,
     @SerializedName("08. previous close") val previousClose: Float,
     @SerializedName("09. change") val change: Float,
-    @SerializedName("10. change percent") val changePercent: String)
+    @SerializedName("10. change percent") val changePercent: String) : Serializable
