@@ -7,22 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.get
-import androidx.lifecycle.viewModelScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.room.Room
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.LocalDatabase
 import matixar.mystockhub.database.Stock
-import matixar.mystockhub.database.StockRepository
 import java.util.*
-import kotlin.collections.ArrayList
 
 class StockFragment : Fragment() {
 
@@ -31,7 +23,7 @@ class StockFragment : Fragment() {
     }
 
     private val viewModel: StockViewModel by lazy {
-        ViewModelProvider(this,StockViewModelFactory((activity?.application as MyStockHubApplication).repository)).get(StockViewModel::class.java)
+        ViewModelProvider(this,StockViewModelFactory((activity?.application as MyStockHubApplication).stockRepository)).get(StockViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -42,7 +34,9 @@ class StockFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.stock_recyclerview)
         recyclerView?.layoutManager = LinearLayoutManager(view.context)
-        recyclerView?.adapter = StockAdapter()
+
+        recyclerView?.adapter = StockAdapter(this::openStockDetails)
+
         //recyclerView.adapter = viewModel.allStocks.value?.let { StockAdapter(it) }
         viewModel.allStocks.observe(viewLifecycleOwner) { stocks ->
             stocks?.let { (recyclerView.adapter as StockAdapter?)?.updateDataSet(it) }
@@ -59,6 +53,15 @@ class StockFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    private fun openStockDetails(name: String) {
+        kotlin.run {
+            viewModel.getStockData(name)
+            val bundle = Bundle()
+            viewModel.stockData.value?.let { bundle.putSerializable("param1",it)
+                view?.findNavController()?.navigate(R.id.nav_stock_details, bundle)}
+        }
     }
 
     private fun placeholderItems(): List<Stock> {

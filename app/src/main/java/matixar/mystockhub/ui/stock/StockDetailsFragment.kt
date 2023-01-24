@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import matixar.mystockhub.API.StockApiModel
+import matixar.mystockhub.R
 import matixar.mystockhub.databinding.FragmentStockDetailsBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,7 +22,6 @@ private const val ARG_PARAM2 = "param2"
 class StockDetailsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var data: StockApiModel? = null
-    private var name: String? = null
 
 
     private var _binding: FragmentStockDetailsBinding? = null
@@ -32,7 +32,6 @@ class StockDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             data = it.get(ARG_PARAM1) as StockApiModel
-            name = it.getString(ARG_PARAM2)
         }
     }
 
@@ -41,17 +40,27 @@ class StockDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentStockDetailsBinding.inflate(layoutInflater,container,false)
-
+        initData()
         return binding.root
     }
 
     private fun initData() {
+        binding.stockDetailsChipSymbol.text = data?.symbol
         binding.stockDetailsAdvancedInfoLow.text = data?.low.toString()
         binding.stockDetailsAdvancedInfoHigh.text = data?.high.toString()
         binding.stockDetailsAdvancedInfoOpen.text = data?.open.toString()
         binding.stockDetailsAdvancedInfoLatestTradingDay.text = data?.latestTradingDay
         binding.stockDetailsAdvancedInfoPreviousClose.text = data?.previousClose.toString()
-        binding.stockDetailsBasicInfoName.text = name
+        binding.stockDetailsAdvancedInfoVolume.text = data?.volume.toString()
+        binding.stockDetailsBasicInfoPrice.text = data?.price.toString()
+        binding.stockDetailsBasicInfoPriceChange.text = data?.change.toString()
+        binding.stockDetailsBasicInfoPriceChangePercent.text = data?.changePercent
+        if(data?.change!! > 0)
+            binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
+        else if(data?.change!! < 0)
+            binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_loss)
+        else
+            binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_no_change)
     }
 
     companion object {
@@ -65,11 +74,10 @@ class StockDetailsFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(data: StockApiModel, name: String) =
+        fun newInstance(data: StockApiModel) =
             StockDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, data)
-                    putString(ARG_PARAM2, name)
                 }
             }
     }

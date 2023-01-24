@@ -6,10 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
 import matixar.mystockhub.database.Crypto
+import matixar.mystockhub.ui.stock.StockAdapter
+import matixar.mystockhub.ui.stock.StockViewModel
+import matixar.mystockhub.ui.stock.StockViewModelFactory
 import java.util.*
 
 class CryptoFragment : Fragment() {
@@ -17,7 +23,10 @@ class CryptoFragment : Fragment() {
         fun newInstance() = CryptoFragment()
     }
 
-    private lateinit var viewModel: CryptoViewModel
+    private val viewModel: CryptoViewModel by lazy {
+        ViewModelProvider(this,
+            CryptoViewModelFactory((activity?.application as MyStockHubApplication).cryptoRepository)
+        ).get(CryptoViewModel::class.java)    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,14 +36,29 @@ class CryptoFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.crypto_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = CryptoAdapter(placeholderItems())
+        recyclerView.adapter = CryptoAdapter(this::openCryptoDetails)
 
+        viewModel.allCoins.observe(viewLifecycleOwner) { coins ->
+            coins?.let { (recyclerView.adapter as CryptoAdapter?)?.updateDataSet(it)
+            println("test observer")
+            }
+        }
+        viewModel.getAllCoins()
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CryptoViewModel::class.java)
+    }
+
+
+    private fun openCryptoDetails(name: String) {
+        kotlin.run {
+            viewModel.getCoinData(name)
+            val bundle = Bundle()
+            viewModel.coin.value?.let { bundle.putSerializable("param1",it)
+                view?.findNavController()?.navigate(R.id.nav_crypto_details, bundle)}
+        }
     }
 
     private fun placeholderItems(): List<Crypto> {

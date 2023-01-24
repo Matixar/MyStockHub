@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
-import matixar.mystockhub.API.AlphaVantageApiInterface
-import matixar.mystockhub.API.AlphaVantageFunctions
-import matixar.mystockhub.API.BestMatches
-import matixar.mystockhub.API.GlobalQuote
+import matixar.mystockhub.API.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +15,8 @@ import java.util.*
 
 class StockRepository(private val stockDao: StockDao) {
 
-    val allStocks =  MutableLiveData<List<Stock>>()
+    val allStocks = MutableLiveData<List<SearchResultModel>>()
+    val stockData = MutableLiveData<StockApiModel>()
 
 
     @Suppress("RedundantSuspendModifier")
@@ -63,29 +61,29 @@ class StockRepository(private val stockDao: StockDao) {
         api.enqueue(object : Callback<BestMatches> {
             override fun onResponse(call: Call<BestMatches>, response: Response<BestMatches>) {
                 if(response.body()!!.results.isNotEmpty()) {
-                    val list = mutableListOf<Stock>()
-                    for (res in response.body()!!.results) {
-                        list.add(
-                            Stock(
-                                stockName = res.name,
-                                searchString = res.symbol,
-                                currentValue = 0F,
-                                previousValue = 0F,
-                                dataDate = Calendar.getInstance()
-                            )
-                        )
-                        //if(stockDao.getStock(list.last().searchString!!) == null)
-                           // stockDao.insertAll(list.last())
-                    }
-                        //val flow = flowOf(list)
                     println("adding stocks")
-                    allStocks.value = list
-                    //allStocks = flow
-                    println(list.toString())
+                    allStocks.value = response.body()!!.results
                 }
             }
 
             override fun onFailure(call: Call<BestMatches>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getStockDataFromName(name: String) {
+        val api = AlphaVantageApiInterface.create().getStock(AlphaVantageFunctions.STOCK_MODEL.function, name, AlphaVantageApiInterface.API_KEY)
+        api.enqueue(object : Callback<GlobalQuote> {
+            override fun onResponse(call: Call<GlobalQuote>, response: Response<GlobalQuote>) {
+                stockData.value = response.body()!!.stockApiModel
+            }
+
+            override fun onFailure(call: Call<GlobalQuote>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
