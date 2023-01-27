@@ -2,8 +2,8 @@ package matixar.mystockhub.ui.stock
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import matixar.mystockhub.API.SearchResultModel
-import matixar.mystockhub.API.StockApiModel
+import matixar.mystockhub.API.models.SearchResultModel
+import matixar.mystockhub.API.models.StockApiModel
 import matixar.mystockhub.database.Stock
 import matixar.mystockhub.database.StockRepository
 

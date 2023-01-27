@@ -1,4 +1,4 @@
-package matixar.mystockhub.API
+package matixar.mystockhub.API.models
 
 import com.google.gson.annotations.SerializedName
 

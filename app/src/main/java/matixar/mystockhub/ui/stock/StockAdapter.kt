@@ -3,14 +3,10 @@ package matixar.mystockhub.ui.stock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import matixar.mystockhub.API.SearchResultModel
+import matixar.mystockhub.API.models.SearchResultModel
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Stock
 
 class StockAdapter(val fragmentFunction: (name: String) -> (Unit)) :
     RecyclerView.Adapter<StockAdapter.ViewHolder>() {

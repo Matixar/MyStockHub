@@ -3,7 +3,135 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.crypto.CryptoDetailsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.google.android.material.chip.Chip
+            android:id="@+id/crypto_details_chip_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:clickable="false"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            tools:text="TSLA"
+            />
+
+        <TextView
+            android:id="@+id/crypto_details_basic_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintTop_toBottomOf="@id/crypto_details_chip_symbol"
+            android:layout_marginEnd="8dp"
+            tools:text="Tesla Inc."/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/crypto_details_cardView_basic_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/crypto_details_basic_info_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/crypto_details_basic_info_price_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Price"
+                    />
+                <TextView
+                    android:id="@+id/crypto_details_basic_info_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/crypto_details_basic_info_price_textview"
+                    style="@style/TextAppearance.Material3.DisplaySmall"
+                    app:layout_constraintStart_toStartOf="@id/crypto_details_basic_info_price_textview"
+                    tools:text="25000"
+                    />
+                <TextView
+                    android:id="@+id/crypto_details_basic_info_price_change_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/crypto_details_basic_info_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:layout_marginTop="8dp"
+                    android:text="Price change"/>
+                <TextView
+                    android:id="@+id/crypto_details_basic_info_price_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/crypto_details_basic_info_price_change_textview"
+                    app:layout_constraintStart_toStartOf="@id/crypto_details_basic_info_price_change_textview"
+                    style="@style/TextAppearance.Material3.DisplaySmall"
+
+                    android:text="+250"/>
+                <TextView
+                    android:id="@+id/crypto_details_basic_info_price_change_percent"
+                    tools:text="(+2,5%)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/crypto_details_basic_info_price_change"/>
+                <ImageView
+                    android:id="@+id/crypto_details_basic_info_price_change_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/crypto_details_basic_info_price_change_percent"
+                    app:layout_constraintTop_toTopOf="@id/crypto_details_basic_info_price_change_textview"
+                    app:layout_constraintBottom_toBottomOf="@id/crypto_details_basic_info_price_change_percent"
+                    tools:src="@drawable/ic_arrow_profit"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/crypto_details_advanced_info_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/crypto_details_cardView_basic_info"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                            android:text="Market cap"/>
+                        <TextView
+                            android:id="@+id/crypto_details_advanced_info_market_cap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="350000"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

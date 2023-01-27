@@ -2,9 +2,9 @@ package matixar.mystockhub.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
-import matixar.mystockhub.API.Coin
+import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.API.CoinLibApiInterface
-import matixar.mystockhub.API.CoinList
+import matixar.mystockhub.API.models.CoinList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

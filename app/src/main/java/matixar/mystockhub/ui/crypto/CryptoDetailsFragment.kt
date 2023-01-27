@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import matixar.mystockhub.API.Coin
+import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.R
+import matixar.mystockhub.databinding.FragmentCryptoDetailsBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +24,9 @@ class CryptoDetailsFragment : Fragment() {
     private var coin: Coin? = null
     private var param2: String? = null
 
+    private var _binding: FragmentCryptoDetailsBinding? = null
+
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,8 +39,27 @@ class CryptoDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_crypto_details, container, false)
+        _binding = FragmentCryptoDetailsBinding.inflate(layoutInflater,container,false)
+        initData()
+        return binding.root
+    }
+
+    private fun initData() {
+        binding.cryptoDetailsChipSymbol.text = coin?.symbol
+        binding.cryptoDetailsBasicInfoName.text = coin?.name
+        binding.cryptoDetailsBasicInfoPrice.text = coin?.price
+        binding.cryptoDetailsAdvancedInfoMarketCap.text = coin?.marketCap
+        binding.cryptoDetailsBasicInfoPriceChangePercent.text = coin?.delta24h
+        val priceChange = coin?.price?.toFloat()!! * coin?.delta24h?.toFloat()!! / 100F
+        binding.cryptoDetailsBasicInfoPriceChange.text = priceChange.toString()
+        if(priceChange > 0)
+            binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
+        else if(priceChange < 0)
+            binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_loss)
+        else
+            binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_no_change)
+
+
     }
 
     companion object {

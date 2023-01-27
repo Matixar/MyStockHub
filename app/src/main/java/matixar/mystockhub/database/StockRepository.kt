@@ -2,10 +2,11 @@ package matixar.mystockhub.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flowOf
 import matixar.mystockhub.API.*
+import matixar.mystockhub.API.models.BestMatches
+import matixar.mystockhub.API.models.GlobalQuote
+import matixar.mystockhub.API.models.SearchResultModel
+import matixar.mystockhub.API.models.StockApiModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

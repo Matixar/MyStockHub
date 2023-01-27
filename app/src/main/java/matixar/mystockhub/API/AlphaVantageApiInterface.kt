@@ -1,5 +1,7 @@
 package matixar.mystockhub.API
 
+import matixar.mystockhub.API.models.BestMatches
+import matixar.mystockhub.API.models.GlobalQuote
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

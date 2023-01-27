@@ -3,14 +3,10 @@ package matixar.mystockhub.ui.crypto
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import matixar.mystockhub.API.Coin
-import matixar.mystockhub.API.SearchResultModel
+import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
 
 class CryptoAdapter(val fragmentFunction: (symbol: String) -> (Unit)) :
 RecyclerView.Adapter<CryptoAdapter.ViewHolder>() {
@@ -25,8 +21,8 @@ RecyclerView.Adapter<CryptoAdapter.ViewHolder>() {
             init {
                 // Define click listener for the ViewHolder's View
                 content = view.rootView
-                itemCode = view.findViewById(R.id.item_p_code)
-                fullName = view.findViewById(R.id.item_p_full_name)
+                itemCode = view.findViewById(R.id.crypto_search_p_code)
+                fullName = view.findViewById(R.id.crypto_search_p_full_name)
             }
         }
 

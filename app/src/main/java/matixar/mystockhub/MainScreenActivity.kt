@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import matixar.mystockhub.API.*
+import matixar.mystockhub.API.models.GlobalQuote
 import matixar.mystockhub.databinding.ActivityMainScreenBinding
 import retrofit2.Call
 import retrofit2.Callback
