@@ -52,4 +52,14 @@
         android:name="matixar.mystockhub.ui.gold.GoldFragment"
         android:label="Gold"
         tools:layout="@layout/fragment_gold" />
+    <fragment
+        android:id="@+id/nav_calculator"
+        android:name="matixar.mystockhub.ui.calculator.CalculatorFragment"
+        android:label="Calculator"
+        tools:layout="@layout/fragment_calculator" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="matixar.mystockhub.ui.settings.SettingsFragment"
+        android:label="Settings"
+        />
 </navigation>

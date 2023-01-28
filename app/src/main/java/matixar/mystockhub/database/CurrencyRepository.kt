@@ -21,8 +21,6 @@ class CurrencyRepository {
                 call: Call<List<CurrencyList>>,
                 response: Response<List<CurrencyList>>
             ) {
-                println("test1")
-                println(response.body())
                 currencyList.value = response.body()?.get(1)
                 currencyListYesterday.value = response.body()?.get(0)
             }
