@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.get
+import androidx.preference.PreferenceManager
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
 
@@ -34,9 +34,12 @@ class GoldFragment : Fragment() {
 
         viewModel.goldList.observe(viewLifecycleOwner) { goldList ->
             goldList?.let {
-                priceToday.text = goldList[0].price.toString()
-                priceYesterday.text = goldList[1].price.toString()
-                val change = (goldList[0].price - goldList[1].price)/goldList[0].price * 100
+                val preferences = PreferenceManager.getDefaultSharedPreferences(activity!!.applicationContext)
+                val rate = 1 / preferences.getFloat("currency_" + preferences.getString("currency","PLN"),1F)
+
+                priceToday.text = String.format("%.2f",goldList[0].price * rate)
+                priceYesterday.text = String.format("%.2f",goldList[1].price * rate)
+                val change = ((goldList[0].price * rate) - (goldList[1].price * rate))/(goldList[0].price * rate) * 100
                 changePercent.text = String.format("%.2f",change) + "%"
                 if(change > 0)
                     changePercent.setTextColor(resources.getColor(R.color.green))

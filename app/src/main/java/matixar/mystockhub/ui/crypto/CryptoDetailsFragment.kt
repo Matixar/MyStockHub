@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.R
 import matixar.mystockhub.databinding.FragmentCryptoDetailsBinding
@@ -45,13 +46,16 @@ class CryptoDetailsFragment : Fragment() {
     }
 
     private fun initData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(activity!!.applicationContext)
+        val rate = preferences.getFloat("currency_USD", 1F) / preferences.getFloat("currency_" + preferences.getString("currency","USD"),1F)
+
         binding.cryptoDetailsChipSymbol.text = coin?.symbol
         binding.cryptoDetailsBasicInfoName.text = coin?.name
-        binding.cryptoDetailsBasicInfoPrice.text = coin?.price
+        binding.cryptoDetailsBasicInfoPrice.text = String.format("%.4f", coin?.price?.toFloat()!! * rate)
         binding.cryptoDetailsAdvancedInfoMarketCap.text = coin?.marketCap
         binding.cryptoDetailsBasicInfoPriceChangePercent.text = coin?.delta24h
         val priceChange = coin?.price?.toFloat()!! * coin?.delta24h?.toFloat()!! / 100F
-        binding.cryptoDetailsBasicInfoPriceChange.text = priceChange.toString()
+        binding.cryptoDetailsBasicInfoPriceChange.text = String.format("%.4f",priceChange * rate)
         if(priceChange > 0)
             binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
         else if(priceChange < 0)

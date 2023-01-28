@@ -45,7 +45,6 @@ class StockFragment : Fragment() {
         view.findViewById<Button>(R.id.stock_search_button).setOnClickListener {
             val text = view.findViewById<TextInputEditText>(R.id.stock_search_edittext).text.toString()
             viewModel.searchStocks(text)
-            println(viewModel.allStocks.value.toString())
             //viewModel.allStocks.value?.let {(recyclerView.adapter as StockAdapter?)?.updateDataSet(it) }
         }
         return view

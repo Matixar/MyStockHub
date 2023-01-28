@@ -2,14 +2,15 @@ package matixar.mystockhub
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ui.*
+import androidx.preference.PreferenceManager
+import kotlinx.coroutines.launch
 import matixar.mystockhub.API.*
 import matixar.mystockhub.API.models.GlobalQuote
 import matixar.mystockhub.databinding.ActivityMainScreenBinding
@@ -62,6 +63,8 @@ class MainScreenActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        addExchangeRatesToPreferences()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,8 +73,28 @@ class MainScreenActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.nav_settings -> {
+                item.onNavDestinationSelected(findNavController(R.id.nav_host_fragment_content_main_screen))
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main_screen)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun addExchangeRatesToPreferences() {
+        val repository = (application as MyStockHubApplication).currencyRepository
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        lifecycleScope.launch {
+            repository.getCurrencyExchangeRate("USD", preferences)
+            repository.getCurrencyExchangeRate("EUR", preferences)
+            repository.getCurrencyExchangeRate("GBP", preferences)
+            repository.getCurrencyExchangeRate("CHF", preferences)
+        }
     }
 }

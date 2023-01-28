@@ -13,17 +13,17 @@ class StockViewModel(private val repository: StockRepository) : ViewModel() {
     val stockData: LiveData<StockApiModel> by lazy {
         repository.stockData
     }
-        fun insert(stock: Stock) = viewModelScope.launch {
+    fun insert(stock: Stock) = viewModelScope.launch {
             repository.insert(stock)
-        }
-
-        fun searchStocks(name: String) = viewModelScope.launch {
-            repository.getStocksFromSearch(name)
-        }
-        fun getStockData(name: String) = viewModelScope.launch {
-            repository.getStockDataFromName(name)
-        }
     }
+
+    fun searchStocks(name: String) = viewModelScope.launch {
+            repository.getStocksFromSearch(name)
+    }
+    fun getStockData(name: String) = viewModelScope.launch {
+            repository.getStockDataFromName(name)
+    }
+}
 
 class StockViewModelFactory(private val repository: StockRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

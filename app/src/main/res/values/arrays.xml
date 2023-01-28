@@ -9,4 +9,20 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="currency_entries">
+        <item>PLN</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>CHF</item>
+    </string-array>
+
+    <string-array name="currency_values">
+        <item>PLN</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>CHF</item>
+    </string-array>
 </resources>

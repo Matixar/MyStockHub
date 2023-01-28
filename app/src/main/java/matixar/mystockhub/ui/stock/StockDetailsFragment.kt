@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.StockApiModel
 import matixar.mystockhub.R
 import matixar.mystockhub.databinding.FragmentStockDetailsBinding
@@ -45,16 +46,19 @@ class StockDetailsFragment : Fragment() {
     }
 
     private fun initData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(activity!!.applicationContext)
+        val rate = preferences.getFloat("currency_USD", 1F) / preferences.getFloat("currency_" + preferences.getString("currency","USD"),1F)
+
         binding.stockDetailsChipSymbol.text = data?.symbol
-        binding.stockDetailsAdvancedInfoLow.text = data?.low.toString()
-        binding.stockDetailsAdvancedInfoHigh.text = data?.high.toString()
-        binding.stockDetailsAdvancedInfoOpen.text = data?.open.toString()
+        binding.stockDetailsAdvancedInfoLow.text = String.format("%.4f",(data?.low?.times(rate)))
+        binding.stockDetailsAdvancedInfoHigh.text = String.format("%.4f",(data?.high?.times(rate)))
+        binding.stockDetailsAdvancedInfoOpen.text = String.format("%.4f",(data?.open?.times(rate)))
         binding.stockDetailsAdvancedInfoLatestTradingDay.text = data?.latestTradingDay
-        binding.stockDetailsAdvancedInfoPreviousClose.text = data?.previousClose.toString()
+        binding.stockDetailsAdvancedInfoPreviousClose.text = String.format("%.4f",(data?.previousClose?.times(rate)))
         binding.stockDetailsAdvancedInfoVolume.text = data?.volume.toString()
-        binding.stockDetailsBasicInfoPrice.text = data?.price.toString()
-        binding.stockDetailsBasicInfoPriceChange.text = data?.change.toString()
-        binding.stockDetailsBasicInfoPriceChangePercent.text = data?.changePercent
+        binding.stockDetailsBasicInfoPrice.text = String.format("%.4f",(data?.price?.times(rate)))
+        binding.stockDetailsBasicInfoPriceChange.text = String.format("%.2f",(data?.change?.times(rate)))
+        binding.stockDetailsBasicInfoPriceChangePercent.text = String.format("%.2f",data?.changePercent)
         if(data?.change!! > 0)
             binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
         else if(data?.change!! < 0)
