@@ -57,9 +57,15 @@
         android:name="matixar.mystockhub.ui.calculator.CalculatorFragment"
         android:label="Calculator"
         tools:layout="@layout/fragment_calculator" />
+
+    <fragment
+        android:id="@+id/nav_own_invest"
+        android:name="matixar.mystockhub.ui.investments.OwnInvestmentsFragment"
+        android:label="Own Investments"
+        tools:layout="@layout/fragment_own_investments" />
+
     <fragment
         android:id="@+id/nav_settings"
         android:name="matixar.mystockhub.ui.settings.SettingsFragment"
-        android:label="Settings"
-        />
+        android:label="Settings" />
 </navigation>

@@ -1,14 +1,23 @@
 package matixar.mystockhub.ui.crypto
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.Coin
+import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
+import matixar.mystockhub.database.Crypto
 import matixar.mystockhub.databinding.FragmentCryptoDetailsBinding
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +37,13 @@ class CryptoDetailsFragment : Fragment() {
     private var _binding: FragmentCryptoDetailsBinding? = null
 
     private val binding get() = _binding!!
+
+    private val viewModel: CryptoViewModel by lazy {
+        ViewModelProvider(this,
+            CryptoViewModelFactory((activity?.application as MyStockHubApplication).cryptoRepository)
+        ).get(CryptoViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,7 +57,10 @@ class CryptoDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCryptoDetailsBinding.inflate(layoutInflater,container,false)
+
         initData()
+        initButton()
+
         return binding.root
     }
 
@@ -64,6 +83,24 @@ class CryptoDetailsFragment : Fragment() {
             binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_no_change)
 
 
+    }
+
+    private fun initButton() {
+        binding.cryptoDetailsButtonBuy.setOnClickListener {
+            val edittext = EditText(context)
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Enter amount")
+            builder.setView(edittext)
+            builder.setPositiveButton("Buy", DialogInterface.OnClickListener { dialogInterface, i ->
+                if(edittext.text.toString().toFloatOrNull() != null) {
+                    val crypto = Crypto(coin = coin!!, amount = edittext.text.toString().toFloat(), currentPrice = coin!!.price.toFloat(), purchaseDate = Date())
+                    viewModel.insert(crypto)
+                    Toast.makeText(context, "Bought " + coin!!.name + " for " + coin!!.price, Toast.LENGTH_SHORT).show()
+                }
+                else
+                    Toast.makeText(context, "Not a number", Toast.LENGTH_SHORT).show()
+            }).show()
+        }
     }
 
     companion object {

@@ -1,15 +1,24 @@
 package matixar.mystockhub.ui.gold
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
+import matixar.mystockhub.database.Crypto
+import matixar.mystockhub.database.GoldEntity
+import java.util.*
 
 class GoldFragment : Fragment() {
 
@@ -31,6 +40,7 @@ class GoldFragment : Fragment() {
         val priceToday = view.findViewById<TextView>(R.id.gold_f_price_now)
         val priceYesterday = view.findViewById<TextView>(R.id.gold_f_price_yesterday)
         val changePercent = view.findViewById<TextView>(R.id.gold_f_price_change_percent)
+        val button = view.findViewById<Button>(R.id.gold_f_button_buy)
 
         viewModel.goldList.observe(viewLifecycleOwner) { goldList ->
             goldList?.let {
@@ -48,12 +58,27 @@ class GoldFragment : Fragment() {
             }
         }
         viewModel.getGoldListPrice()
+
+        button.setOnClickListener {
+            val edittext = EditText(context)
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Enter amount")
+            builder.setView(edittext)
+            builder.setPositiveButton("Buy", DialogInterface.OnClickListener { dialogInterface, i ->
+                if(edittext.text.toString().toFloatOrNull() != null) {
+                    val preferences = PreferenceManager.getDefaultSharedPreferences(activity!!.applicationContext)
+                    val rate = 1 / preferences.getFloat("currency_" + preferences.getString("currency","PLN"),1F)
+                    val gold = GoldEntity(gold = viewModel.goldList.value!![0], amount = edittext.text.toString().toFloat(), currentPrice = viewModel.goldList.value!![0].price, purchaseDate = Date())
+                    viewModel.insert(gold)
+                    Toast.makeText(context, "Bought gold for " + gold.currentPrice * rate, Toast.LENGTH_SHORT).show()
+                }
+                else
+                    Toast.makeText(context, "Not a number", Toast.LENGTH_SHORT).show()
+            }).show()
+        }
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
-    }
+
 
 }

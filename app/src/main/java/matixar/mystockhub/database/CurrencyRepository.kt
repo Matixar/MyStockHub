@@ -14,7 +14,6 @@ import retrofit2.Response
 class CurrencyRepository {
     val currencyList = MutableLiveData<CurrencyList>()
     val currencyListYesterday = MutableLiveData<CurrencyList>()
-    val singleCurrency = MutableLiveData<MutableMap<String?, SingleCurrency?>>()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

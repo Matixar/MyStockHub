@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GoldRepository {
+class GoldRepository(private val goldDao: GoldDao) {
     val gold = MutableLiveData<Gold>()
     val goldList = MutableLiveData<List<Gold>>()
 
@@ -42,5 +42,11 @@ class GoldRepository {
             }
 
         })
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insert(goldEntity: GoldEntity) {
+        goldDao.insert(goldEntity)
     }
 }

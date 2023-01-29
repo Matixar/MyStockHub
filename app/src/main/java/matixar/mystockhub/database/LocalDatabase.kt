@@ -5,16 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
-@Database(entities = [Currency::class, Crypto::class, Stock::class], version = 2, exportSchema = true)
+@Database(entities = [GoldEntity::class, Crypto::class, Stock::class], version = 3, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class LocalDatabase : RoomDatabase() {
-    abstract fun currencyDao(): CurrencyDao
     abstract fun cryptoDao(): CryptoDao
     abstract fun stockDao(): StockDao
+    abstract fun goldDao(): GoldDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -22,7 +19,7 @@ abstract class LocalDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: LocalDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): LocalDatabase {
+        fun getDatabase(context: Context): LocalDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
@@ -38,6 +35,5 @@ abstract class LocalDatabase : RoomDatabase() {
                 instance
             }
         }
-
     }
 }

@@ -2,14 +2,14 @@ package matixar.mystockhub.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
-import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.API.CoinLibApiInterface
+import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.API.models.CoinList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CryptoRepository {
+class CryptoRepository(private val cryptoDao: CryptoDao) {
     val coinList = MutableLiveData<List<Coin>>()
     val coin = MutableLiveData<Coin>()
 
@@ -44,6 +44,12 @@ class CryptoRepository {
             }
 
         })
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insert(crypto: Crypto) {
+        cryptoDao.insert(crypto)
     }
 
 }

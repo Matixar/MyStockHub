@@ -28,35 +28,6 @@ class StockRepository(private val stockDao: StockDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertOrUpdateFromApi(symbol: String) {
-        val api = AlphaVantageApiInterface.create().getStock(AlphaVantageFunctions.STOCK_MODEL.function, symbol, AlphaVantageApiInterface.API_KEY)
-        api.enqueue(object : Callback<GlobalQuote> {
-            override fun onResponse(call: Call<GlobalQuote>, response: Response<GlobalQuote>) {
-                val stockApiModel = response.body()?.stockApiModel
-                val cal = Calendar.getInstance()
-                cal.time = SimpleDateFormat("YYYY-MM-dd").parse(stockApiModel?.latestTradingDay!!)!!
-                val stock = Stock(stockName = stockApiModel.symbol, searchString = stockApiModel.symbol, dataDate = cal, currentValue = stockApiModel.price, previousValue = stockApiModel.previousClose)
-                if(stockDao.getStock(symbol) == null)
-                    stockDao.insertAll(stock)
-                else {
-                    val dbStock = stockDao.getStock(symbol)
-                    dbStock!!.dataDate = cal
-                    dbStock.currentValue = stock.currentValue
-                    dbStock.previousValue = stock.previousValue
-                    stockDao.insertAll(dbStock)
-                }
-
-            }
-
-            override fun onFailure(call: Call<GlobalQuote>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun getStocksFromSearch(name: String) {
         val api = AlphaVantageApiInterface.create().searchStock(AlphaVantageFunctions.SEARCH.function, name, AlphaVantageApiInterface.API_KEY)
         api.enqueue(object : Callback<BestMatches> {

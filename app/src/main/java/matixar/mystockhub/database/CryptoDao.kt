@@ -1,28 +1,23 @@
 package matixar.mystockhub.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CryptoDao {
     @Insert
     fun insertAll(vararg crypto: Crypto)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(crypto: Crypto)
+
     @Delete
-    fun delete(crypto: Crypto)
+    suspend fun delete(crypto: Crypto)
 
     @Query("SELECT * FROM crypto")
-    fun getAll(): List<Crypto>
+    fun getAll(): Flow<List<Crypto>>
 
     @Update
-    fun updatecrypto(vararg crypto: Crypto)
+    suspend fun updateCrypto(vararg crypto: Crypto)
 
-    @Query("SELECT * FROM crypto WHERE search_string LIKE '%' || :string || '%'")
-    fun getFromSearch(string: String): List<Crypto>
-
-    @Query("SELECT * FROM crypto WHERE crypto_name LIKE :name")
-    fun getFromName(name: String): Crypto
 }

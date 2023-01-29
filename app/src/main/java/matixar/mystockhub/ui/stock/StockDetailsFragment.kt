@@ -1,14 +1,24 @@
 package matixar.mystockhub.ui.stock
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.StockApiModel
+import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
+import matixar.mystockhub.database.Crypto
+import matixar.mystockhub.database.Stock
 import matixar.mystockhub.databinding.FragmentStockDetailsBinding
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +39,10 @@ class StockDetailsFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private val viewModel: StockViewModel by lazy {
+        ViewModelProvider(this,StockViewModelFactory((activity?.application as MyStockHubApplication).stockRepository)).get(StockViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,9 +53,10 @@ class StockDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStockDetailsBinding.inflate(layoutInflater,container,false)
         initData()
+        initButton()
         return binding.root
     }
 
@@ -58,13 +73,31 @@ class StockDetailsFragment : Fragment() {
         binding.stockDetailsAdvancedInfoVolume.text = data?.volume.toString()
         binding.stockDetailsBasicInfoPrice.text = String.format("%.4f",(data?.price?.times(rate)))
         binding.stockDetailsBasicInfoPriceChange.text = String.format("%.2f",(data?.change?.times(rate)))
-        binding.stockDetailsBasicInfoPriceChangePercent.text = String.format("%.2f",data?.changePercent)
+        binding.stockDetailsBasicInfoPriceChangePercent.text = data?.changePercent
         if(data?.change!! > 0)
             binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
         else if(data?.change!! < 0)
             binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_loss)
         else
             binding.stockDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_no_change)
+    }
+
+    private fun initButton() {
+        binding.stockDetailsButtonBuy.setOnClickListener {
+            val edittext = EditText(context)
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Enter amount")
+            builder.setView(edittext)
+            builder.setPositiveButton("Buy", DialogInterface.OnClickListener { dialogInterface, i ->
+                if(edittext.text.toString().toFloatOrNull() != null) {
+                    val stock = Stock(stockApiModel = data!!, amount = edittext.text.toString().toFloat(), currentPrice = data!!.price, purchaseDate = Date())
+                    viewModel.insert(stock)
+                    Toast.makeText(context, "Bought " + data!!.symbol + " for " + data!!.price, Toast.LENGTH_SHORT).show()
+                }
+                else
+                    Toast.makeText(context, "Not a number", Toast.LENGTH_SHORT).show()
+            }).show()
+        }
     }
 
     companion object {

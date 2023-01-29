@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import matixar.mystockhub.API.models.Coin
+import matixar.mystockhub.database.Crypto
 import matixar.mystockhub.database.CryptoRepository
 
 class CryptoViewModel(private val repository: CryptoRepository): ViewModel() {
@@ -25,6 +26,10 @@ class CryptoViewModel(private val repository: CryptoRepository): ViewModel() {
 
     fun openCoinDetailsFragment(name: String, view: View) = viewModelScope.launch {
         repository.getCoinInfo(name)
+    }
+
+    fun insert(crypto: Crypto) = viewModelScope.launch {
+        repository.insert(crypto)
     }
 }
 
