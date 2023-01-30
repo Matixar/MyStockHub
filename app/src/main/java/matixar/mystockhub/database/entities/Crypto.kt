@@ -1,4 +1,4 @@
-package matixar.mystockhub.database
+package matixar.mystockhub.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import matixar.mystockhub.API.models.CurrencyList
-import matixar.mystockhub.database.CurrencyRepository
-import matixar.mystockhub.ui.currency.CurrencyViewModel
+import matixar.mystockhub.database.repositories.CurrencyRepository
 
 class CalculatorViewModel(private val currencyRepository: CurrencyRepository) : ViewModel() {
     val currencyList: LiveData<CurrencyList> = currencyRepository.currencyList

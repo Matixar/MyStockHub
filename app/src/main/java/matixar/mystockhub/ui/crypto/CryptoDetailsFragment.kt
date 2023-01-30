@@ -9,28 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
+import matixar.mystockhub.database.entities.Crypto
 import matixar.mystockhub.databinding.FragmentCryptoDetailsBinding
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CryptoDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CryptoDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var coin: Coin? = null
     private var param2: String? = null
 
@@ -55,7 +46,7 @@ class CryptoDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCryptoDetailsBinding.inflate(layoutInflater,container,false)
 
         initData()
@@ -101,25 +92,5 @@ class CryptoDetailsFragment : Fragment() {
                     Toast.makeText(context, "Not a number", Toast.LENGTH_SHORT).show()
             }).show()
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CryptoDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CryptoDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import matixar.mystockhub.API.models.SearchResultModel
 import matixar.mystockhub.API.models.StockApiModel
-import matixar.mystockhub.database.Stock
-import matixar.mystockhub.database.StockRepository
+import matixar.mystockhub.database.entities.Stock
+import matixar.mystockhub.database.repositories.StockRepository
 
 class StockViewModel(private val repository: StockRepository) : ViewModel() {
 
@@ -13,6 +13,8 @@ class StockViewModel(private val repository: StockRepository) : ViewModel() {
     val stockData: LiveData<StockApiModel> by lazy {
         repository.stockData
     }
+    val stockDataLoaded: LiveData<Boolean> = repository.stockDataLoaded
+
     fun insert(stock: Stock) = viewModelScope.launch {
             repository.insert(stock)
     }

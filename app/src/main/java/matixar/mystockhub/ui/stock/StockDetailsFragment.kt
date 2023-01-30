@@ -9,29 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.API.models.StockApiModel
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
-import matixar.mystockhub.database.Stock
+import matixar.mystockhub.database.entities.Stock
 import matixar.mystockhub.databinding.FragmentStockDetailsBinding
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StockDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StockDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var data: StockApiModel? = null
 
 
@@ -98,24 +87,5 @@ class StockDetailsFragment : Fragment() {
                     Toast.makeText(context, "Not a number", Toast.LENGTH_SHORT).show()
             }).show()
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StockDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(data: StockApiModel) =
-            StockDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(ARG_PARAM1, data)
-                }
-            }
     }
 }

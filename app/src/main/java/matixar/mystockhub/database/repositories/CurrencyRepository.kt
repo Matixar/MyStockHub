@@ -1,11 +1,11 @@
-package matixar.mystockhub.database
+package matixar.mystockhub.database.repositories
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import matixar.mystockhub.API.NBPApiInterface
 import matixar.mystockhub.API.models.CurrencyList
-import matixar.mystockhub.API.models.SingleCurrency
 import matixar.mystockhub.API.models.SingleCurrencyList
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,7 +29,7 @@ class CurrencyRepository {
             }
 
             override fun onFailure(call: Call<List<CurrencyList>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.e("Retrofit", "onFailure: getCurrencyListLast2Days()", t)
             }
 
         })
@@ -48,7 +48,7 @@ class CurrencyRepository {
             }
 
             override fun onFailure(call: Call<SingleCurrencyList>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.e("Retrofit", "onFailure: getCurrencyExchangeRate(symbol = $symbol, preferences = $preferences)", t)
             }
 
         })

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Stock
+import matixar.mystockhub.database.entities.Stock
 import java.text.SimpleDateFormat
 
 class OwnStocksAdapter: ListAdapter<Stock, OwnStocksAdapter.OwnStocksViewHolder>(WORDS_COMPARATOR) {
@@ -26,7 +26,7 @@ class OwnStocksAdapter: ListAdapter<Stock, OwnStocksAdapter.OwnStocksViewHolder>
         holder.bind(current.stockApiModel.symbol,current.amount.toString(),
             (current.amount * current.stockApiModel.price * rate).toString(),
         SimpleDateFormat("yyyy-MM-dd").format(current.purchaseDate),
-        current.currentPrice.toString(), (((current.amount * current.stockApiModel.price) - (current.amount * current.currentPrice)) * rate).toString())
+            (current.currentPrice * rate).toString(), (((current.amount * current.currentPrice) -(current.amount * current.stockApiModel.price)) * rate).toString())
     }
 
     class OwnStocksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

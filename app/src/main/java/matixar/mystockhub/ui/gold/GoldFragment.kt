@@ -12,12 +12,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.text.isDigitsOnly
 import androidx.preference.PreferenceManager
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
-import matixar.mystockhub.database.GoldEntity
+import matixar.mystockhub.database.entities.GoldEntity
 import java.util.*
 
 class GoldFragment : Fragment() {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import matixar.mystockhub.R
-import matixar.mystockhub.database.GoldEntity
+import matixar.mystockhub.database.entities.GoldEntity
 import java.text.SimpleDateFormat
 
 class OwnGoldAdapter: ListAdapter<GoldEntity, OwnGoldAdapter.OwnGoldViewHolder>(WORDS_COMPARATOR) {
@@ -26,7 +26,7 @@ class OwnGoldAdapter: ListAdapter<GoldEntity, OwnGoldAdapter.OwnGoldViewHolder>(
         holder.bind("GOLD",current.amount.toString(),
             (current.amount * current.gold.price * rate).toString(),
             SimpleDateFormat("yyyy-MM-dd").format(current.purchaseDate),
-            current.currentPrice.toString(), (((current.amount * current.gold.price) - (current.amount * current.currentPrice)) * rate).toString())
+            (current.currentPrice * rate).toString(), (((current.amount * current.currentPrice) - (current.amount * current.gold.price)) * rate).toString())
     }
 
     class OwnGoldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

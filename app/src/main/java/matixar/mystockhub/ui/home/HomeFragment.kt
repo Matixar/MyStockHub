@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.crazzyghost.alphavantage.AlphaVantage
-import com.crazzyghost.alphavantage.Config
-import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse
 import matixar.mystockhub.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

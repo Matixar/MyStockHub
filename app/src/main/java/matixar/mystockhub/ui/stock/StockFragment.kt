@@ -11,12 +11,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Stock
-import java.util.*
 
 class StockFragment : Fragment() {
 
@@ -39,7 +35,6 @@ class StockFragment : Fragment() {
 
         recyclerView?.adapter = StockAdapter(this::openStockDetails)
 
-        //recyclerView.adapter = viewModel.allStocks.value?.let { StockAdapter(it) }
         viewModel.allStocks.observe(viewLifecycleOwner) { stocks ->
             stocks?.let { (recyclerView.adapter as StockAdapter?)?.updateDataSet(it) }
             println("test observer")
@@ -47,17 +42,14 @@ class StockFragment : Fragment() {
         view.findViewById<Button>(R.id.stock_search_button).setOnClickListener {
             val text = view.findViewById<TextInputEditText>(R.id.stock_search_edittext).text.toString()
             viewModel.searchStocks(text)
-            //viewModel.allStocks.value?.let {(recyclerView.adapter as StockAdapter?)?.updateDataSet(it) }
         }
         return view
     }
 
     private fun openStockDetails(name: String) {
-        runBlocking {
-            launch {
-                viewModel.getStockData(name)
-            }
-            launch {
+        viewModel.getStockData(name)
+        viewModel.stockDataLoaded.observe(viewLifecycleOwner) { loaded ->
+            if(loaded) {
                 val bundle = Bundle()
                 viewModel.stockData.value?.let { bundle.putSerializable("param1",it)
                     view?.findNavController()?.navigate(R.id.nav_stock_details, bundle)}

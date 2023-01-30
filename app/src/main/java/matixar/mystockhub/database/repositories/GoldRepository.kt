@@ -1,9 +1,12 @@
-package matixar.mystockhub.database
+package matixar.mystockhub.database.repositories
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import matixar.mystockhub.API.models.Gold
 import matixar.mystockhub.API.NBPApiInterface
+import matixar.mystockhub.database.dao.GoldDao
+import matixar.mystockhub.database.entities.GoldEntity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,10 +22,11 @@ class GoldRepository(private val goldDao: GoldDao) {
         api.enqueue(object : Callback<Gold> {
             override fun onResponse(call: Call<Gold>, response: Response<Gold>) {
                 gold.value = response.body()
+                Log.d("Retrofit", "onResponse() called with: call = $call, response = ${response.body()}")
             }
 
             override fun onFailure(call: Call<Gold>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.e("Retrofit", "onFailure: getGoldPrice()", t)
             }
 
         })
@@ -35,10 +39,11 @@ class GoldRepository(private val goldDao: GoldDao) {
         api.enqueue(object : Callback<List<Gold>> {
             override fun onResponse(call: Call<List<Gold>>, response: Response<List<Gold>>) {
                 goldList.value = response.body()
+                Log.d("Retrofit", "onResponse() called with: call = $call, response = ${response.body()}")
             }
 
             override fun onFailure(call: Call<List<Gold>>, t: Throwable) {
-                println(t.message)
+                Log.e("Retrofit", "onFailure: getGoldPriceList()", t)
             }
 
         })

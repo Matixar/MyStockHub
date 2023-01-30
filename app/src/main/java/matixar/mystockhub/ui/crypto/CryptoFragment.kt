@@ -8,18 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
-import matixar.mystockhub.ui.stock.StockAdapter
-import matixar.mystockhub.ui.stock.StockViewModel
-import matixar.mystockhub.ui.stock.StockViewModelFactory
-import java.util.*
 
 class CryptoFragment : Fragment() {
     companion object {
@@ -60,9 +54,13 @@ class CryptoFragment : Fragment() {
         return view
     }
     private fun openCryptoDetails(name: String) {
-        viewModel.openCoinDetailsFragment(name, view!!)
-        val bundle = Bundle()
-        viewModel.coin.value?.let { bundle.putSerializable("param1",it)
-            view?.findNavController()?.navigate(R.id.nav_crypto_details, bundle)}
+        viewModel.openCoinDetailsFragment(name)
+        viewModel.coinDataLoaded.observe(viewLifecycleOwner) {
+            if(it) {
+                val bundle = Bundle()
+                viewModel.coin.value?.let { bundle.putSerializable("param1",it)
+                    view?.findNavController()?.navigate(R.id.nav_crypto_details, bundle)}
+            }
+        }
     }
 }

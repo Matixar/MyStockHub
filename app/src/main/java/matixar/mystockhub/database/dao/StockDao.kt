@@ -1,7 +1,8 @@
-package matixar.mystockhub.database
+package matixar.mystockhub.database.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import matixar.mystockhub.database.entities.Stock
 
 @Dao
 interface StockDao {

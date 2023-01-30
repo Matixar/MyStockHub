@@ -11,12 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ui.*
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.launch
-import matixar.mystockhub.API.*
-import matixar.mystockhub.API.models.GlobalQuote
 import matixar.mystockhub.databinding.ActivityMainScreenBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -31,25 +26,6 @@ class MainScreenActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMainScreen.toolbar)
 
-        binding.appBarMainScreen.fab.setOnClickListener { view ->
-            val api = AlphaVantageApiInterface.create().getStock(AlphaVantageFunctions.STOCK_MODEL.function, "IBM", AlphaVantageApiInterface.API_KEY)
-
-            api.enqueue(object : Callback<GlobalQuote> {
-                override fun onResponse(
-                    call: Call<GlobalQuote>,
-                    response: Response<GlobalQuote>
-                ) {
-                    println(response.body().toString())
-                    println(response.body()?.stockApiModel?.symbol)
-                    println(response.body()?.stockApiModel?.price)
-                }
-
-                override fun onFailure(call: Call<GlobalQuote>, t: Throwable) {
-                    println(t.message)
-                }
-
-            })
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main_screen)
@@ -57,7 +33,7 @@ class MainScreenActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_stock, R.id.nav_crypto,
+                R.id.nav_home, R.id.nav_stock, R.id.nav_crypto,
                 R.id.nav_currency, R.id.nav_gold, R.id.nav_own_invest, R.id.nav_calculator, R.id.nav_settings
             ), drawerLayout
         )

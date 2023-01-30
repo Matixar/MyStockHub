@@ -6,16 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import matixar.mystockhub.API.models.Gold
-import matixar.mystockhub.database.GoldEntity
-import matixar.mystockhub.database.GoldRepository
+import matixar.mystockhub.database.entities.GoldEntity
+import matixar.mystockhub.database.repositories.GoldRepository
 
 class GoldViewModel(private val repository: GoldRepository) : ViewModel() {
     val gold: LiveData<Gold> = repository.gold
     val goldList: LiveData<List<Gold>> = repository.goldList
-
-    fun getGoldPrice() = viewModelScope.launch {
-        repository.getGoldPrice()
-    }
 
     fun getGoldListPrice() = viewModelScope.launch {
         repository.getGoldPriceList()

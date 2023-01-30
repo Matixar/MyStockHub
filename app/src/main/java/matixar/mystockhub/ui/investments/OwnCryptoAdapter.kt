@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import matixar.mystockhub.R
-import matixar.mystockhub.database.Crypto
-import matixar.mystockhub.database.Stock
+import matixar.mystockhub.database.entities.Crypto
 import java.text.SimpleDateFormat
 
 class OwnCryptoAdapter: ListAdapter<Crypto, OwnCryptoAdapter.OwnCryptoViewHolder>(WORDS_COMPARATOR) {
@@ -27,7 +26,7 @@ class OwnCryptoAdapter: ListAdapter<Crypto, OwnCryptoAdapter.OwnCryptoViewHolder
         holder.bind(current.coin.name,current.amount.toString(),
             (current.amount * current.coin.price.toFloat() * rate).toString(),
             SimpleDateFormat("yyyy-MM-dd").format(current.purchaseDate),
-            current.currentPrice.toString(), (((current.amount * current.coin.price.toFloat()) - (current.amount * current.currentPrice)) * rate).toString())
+            (current.currentPrice * rate).toString(), (((current.amount * current.currentPrice) - (current.amount * current.coin.price.toFloat())) * rate).toString())
     }
 
     class OwnCryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

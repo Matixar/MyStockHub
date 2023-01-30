@@ -1,30 +1,26 @@
 package matixar.mystockhub.ui.crypto
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import matixar.mystockhub.API.models.Coin
-import matixar.mystockhub.database.Crypto
-import matixar.mystockhub.database.CryptoRepository
+import matixar.mystockhub.database.entities.Crypto
+import matixar.mystockhub.database.repositories.CryptoRepository
 
 class CryptoViewModel(private val repository: CryptoRepository): ViewModel() {
     val allCoins: LiveData<List<Coin>> = repository.coinList
     val coin: LiveData<Coin> by lazy {
         repository.coin
     }
+    val coinDataLoaded: LiveData<Boolean> = repository.coinDataLoaded
 
     fun getAllCoins() = viewModelScope.launch {
         repository.getCoinsList()
     }
 
-    fun getCoinData(symbol: String) = viewModelScope.launch {
-        repository.getCoinInfo(symbol)
-    }
-
-    fun openCoinDetailsFragment(name: String, view: View) = viewModelScope.launch {
+    fun openCoinDetailsFragment(name: String) = viewModelScope.launch {
         repository.getCoinInfo(name)
     }
 

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.API.models.Currency
 import matixar.mystockhub.R
 

@@ -18,11 +18,6 @@ interface NBPApiInterface {
         @Query("format") format: String = "json"
     ): Call<SingleCurrencyList>
 
-    @GET("exchangerates/tables/A/")
-    fun getCurrenciesExchangeRates(
-        @Query("format") format: String = "json"
-    ): Call<List<CurrencyList>>
-
     @GET("exchangerates/tables/A/last/2/")
     fun getCurrenciesExchangeRatesLast2Days(
         @Query("format") format: String = "json"

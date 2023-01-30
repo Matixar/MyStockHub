@@ -1,11 +1,19 @@
-package matixar.mystockhub.database
+package matixar.mystockhub.database.repositories
 
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
+import matixar.mystockhub.database.*
+import matixar.mystockhub.database.dao.CryptoDao
+import matixar.mystockhub.database.dao.GoldDao
+import matixar.mystockhub.database.dao.StockDao
+import matixar.mystockhub.database.entities.Crypto
+import matixar.mystockhub.database.entities.GoldEntity
+import matixar.mystockhub.database.entities.Stock
 
 class InvestmentsRepository(private val stockDao: StockDao,
                             private val goldDao: GoldDao,
-                            private val cryptoDao: CryptoDao) {
+                            private val cryptoDao: CryptoDao
+) {
 
     val allStocks: Flow<List<Stock>> = stockDao.getAll()
     val allCrypto: Flow<List<Crypto>> = cryptoDao.getAll()

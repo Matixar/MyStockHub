@@ -2,16 +2,23 @@ package matixar.mystockhub.ui.investments
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import matixar.mystockhub.API.models.Coin
 import matixar.mystockhub.API.models.Gold
 import matixar.mystockhub.API.models.StockApiModel
 import matixar.mystockhub.database.*
+import matixar.mystockhub.database.entities.Crypto
+import matixar.mystockhub.database.entities.GoldEntity
+import matixar.mystockhub.database.entities.Stock
+import matixar.mystockhub.database.repositories.CryptoRepository
+import matixar.mystockhub.database.repositories.GoldRepository
+import matixar.mystockhub.database.repositories.InvestmentsRepository
+import matixar.mystockhub.database.repositories.StockRepository
 
 class OwnInvestmentsViewModel(private val repository: InvestmentsRepository,
                               private val stockRepository: StockRepository,
                               private val cryptoRepository: CryptoRepository,
-                              private val goldRepository: GoldRepository) : ViewModel() {
+                              private val goldRepository: GoldRepository
+) : ViewModel() {
 
     val allStock: LiveData<List<Stock>> = repository.allStocks.asLiveData()
     val allCrypto: LiveData<List<Crypto>> = repository.allCrypto.asLiveData()
@@ -21,6 +28,8 @@ class OwnInvestmentsViewModel(private val repository: InvestmentsRepository,
     val coin: LiveData<Coin> = cryptoRepository.coin
     val stock: LiveData<StockApiModel> = stockRepository.stockData
 
+    val coinLoaded: LiveData<Boolean> = cryptoRepository.coinDataLoaded
+    val stockLoaded: LiveData<Boolean> = stockRepository.stockDataLoaded
 
     fun delete(stock: Stock) = viewModelScope.launch {
         repository.delete(stock)
@@ -47,41 +56,19 @@ class OwnInvestmentsViewModel(private val repository: InvestmentsRepository,
     }
 
     fun getStockData(symbol: String) = viewModelScope.launch {
-        runBlocking {
-            launch {
-                stockRepository.getStockDataFromName(symbol)
-            }
-            launch {
-                allStock.value?.map {
-                    if(it.stockApiModel.symbol == symbol) it.currentPrice = stock.value?.price ?: it.stockApiModel.price
-                }
-            }
-        }
+        stockRepository.getStockDataFromName(symbol)
     }
 
     fun getCoinData(symbol: String) = viewModelScope.launch {
-        runBlocking {
-            launch {
-                cryptoRepository.getCoinInfo(symbol)
-            }
-            launch {
-                allCrypto.value?.map {
-                    if(it.coin.symbol == symbol) it.currentPrice = coin.value?.price?.toFloat() ?: it.coin.price.toFloat()
-                }
-            }
-        }
+        cryptoRepository.getCoinInfo(symbol)
     }
 
     fun getGoldData() = viewModelScope.launch {
-        runBlocking {
-            launch {
-                goldRepository.getGoldPriceList()
-            }
-            launch {
-                allGold.value?.map {
-                    it.currentPrice = gold.value!![0].price
-                }
-            }
+        goldRepository.getGoldPriceList()
+        allGold.value?.map {
+            if(gold.value != null)
+                it.currentPrice = gold.value!![0].price
+            update(it)
         }
     }
 
@@ -90,7 +77,8 @@ class OwnInvestmentsViewModel(private val repository: InvestmentsRepository,
 class OwnInvestmentsViewModelFactory(private val repository: InvestmentsRepository,
                                      private val stockRepository: StockRepository,
                                      private val cryptoRepository: CryptoRepository,
-                                     private val goldRepository: GoldRepository) : ViewModelProvider.Factory {
+                                     private val goldRepository: GoldRepository
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(OwnInvestmentsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

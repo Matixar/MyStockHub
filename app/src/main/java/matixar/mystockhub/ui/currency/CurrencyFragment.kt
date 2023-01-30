@@ -6,15 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import matixar.mystockhub.MyStockHubApplication
 import matixar.mystockhub.R
-import matixar.mystockhub.ui.stock.StockAdapter
-import matixar.mystockhub.ui.stock.StockViewModel
-import matixar.mystockhub.ui.stock.StockViewModelFactory
 
 class CurrencyFragment : Fragment() {
 
