@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,22 +21,32 @@
 
             <TextView
                 android:id="@+id/stock_search_p_code"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/TextAppearance.AppCompat.Title"
-                tools:text="BTC"/>
+                tools:text="BTC" />
+
             <TextView
                 android:id="@+id/stock_search_p_full_name"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                tools:text="Bitcoin"/>
+                app:layout_constraintStart_toEndOf="@id/stock_search_p_guideline"
+                tools:text="ASDASDASDASDASDASDASDASD" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/stock_search_p_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="145dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

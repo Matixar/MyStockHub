@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import matixar.mystockhub.API.models.Currency
 import matixar.mystockhub.R
@@ -43,9 +44,12 @@ class CurrencyAdapter: RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+        val preferences = PreferenceManager.getDefaultSharedPreferences(viewHolder.itemView.context.applicationContext)
+        val rate = 1 / preferences.getFloat("currency_" + preferences.getString("currency","PLN"),1F)
+        
         viewHolder.name.text = dataSet[position].code
-        viewHolder.value.text = String.format("%.4f", dataSet[position].value)
-        val change = dataSetYesterday[position].value - dataSet[position].value
+        viewHolder.value.text = String.format("%.4f", dataSet[position].value * rate)
+        val change = (dataSetYesterday[position].value - dataSet[position].value) * rate
         viewHolder.change.text = String.format("%.4f", change)
         if (change > 0)
             viewHolder.change.setTextColor(Color.GREEN)
