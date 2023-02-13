@@ -19,7 +19,7 @@
         <activity
             android:name=".MainScreenActivity"
             android:exported="true"
-            android:label="@string/title_activity_main_screen"
+            android:label="MyStockHub"
             android:theme="@style/Theme.MyStockHub.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

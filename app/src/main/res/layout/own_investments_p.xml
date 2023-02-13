@@ -123,22 +123,11 @@
 
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/own_investments_p_buttonEdit"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_edit"
-                    style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
-                    android:backgroundTint="@color/material_dynamic_primary70"
-                    />
 
                 <ImageButton
                     android:id="@+id/own_investments_p_buttonDelete"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@drawable/ic_delete"
                     style="@style/Widget.Material3.MaterialTimePicker.ImageButton"
                     android:backgroundTint="@color/red"

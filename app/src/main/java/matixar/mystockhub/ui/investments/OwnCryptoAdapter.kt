@@ -37,7 +37,6 @@ class OwnCryptoAdapter: ListAdapter<Crypto, OwnCryptoAdapter.OwnCryptoViewHolder
         private val currentPrice: TextView = itemView.findViewById(R.id.own_investments_p_current_price)
         private val change: TextView = itemView.findViewById(R.id.own_investments_p_change)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.own_investments_p_buttonDelete)
-        private val editButton: ImageButton = itemView.findViewById(R.id.own_investments_p_buttonEdit)
 
         fun bind(name: String?, amount: String?, value: String?, purchaseDate: String?, currentPrice: String?, change: String?) {
             this.name.text = name
@@ -47,9 +46,6 @@ class OwnCryptoAdapter: ListAdapter<Crypto, OwnCryptoAdapter.OwnCryptoViewHolder
             this.currentPrice.text = currentPrice
             this.change.text = change
             deleteButton.setOnClickListener {
-                Toast.makeText(itemView.context, "TODO", Toast.LENGTH_SHORT).show()
-            }
-            editButton.setOnClickListener {
                 Toast.makeText(itemView.context, "TODO", Toast.LENGTH_SHORT).show()
             }
         }
