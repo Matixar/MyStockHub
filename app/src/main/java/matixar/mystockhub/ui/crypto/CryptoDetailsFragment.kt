@@ -65,7 +65,7 @@ class CryptoDetailsFragment : Fragment() {
         binding.cryptoDetailsAdvancedInfoMarketCap.text = coin?.marketCap
         binding.cryptoDetailsBasicInfoPriceChangePercent.text = coin?.delta24h
         val priceChange = coin?.price?.toFloat()!! * coin?.delta24h?.toFloat()!! / 100F
-        binding.cryptoDetailsBasicInfoPriceChange.text = String.format("%.4f",priceChange * rate)
+        binding.cryptoDetailsBasicInfoPriceChange.text = String.format("%.4f%",priceChange * rate)
         if(priceChange > 0)
             binding.cryptoDetailsBasicInfoPriceChangeImageview.setImageResource(R.drawable.ic_arrow_profit)
         else if(priceChange < 0)
